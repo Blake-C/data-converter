@@ -17,8 +17,8 @@ knex_query
 	.select('id', 'title', 'alias', 'introtext', 'fulltext')
 	.then(rows => {
 		rows.forEach(row => {
-			console.log('-------')
-			console.log(row)
+			const body_content = `${row.introtext} ${row.fulltext}`
+			const fixed_urls = body_content.replace(/(href|src)="(?!http|https|mailto)/gm, '$1="http://localhost/')
 
 			const html_content = `
 				<!DOCTYPE html>
@@ -28,8 +28,7 @@ knex_query
 				</head>
 				<body>
 					<h1>${row.title}</h1>
-					${row.introtext}
-					${row.fulltext}
+					${fixed_urls}
 				</body>
 				</html>
 			`
