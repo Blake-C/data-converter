@@ -12,37 +12,41 @@ const knex_query = knex({
 	},
 })
 
-knex_query
-	.from('xer2k_content')
-	.select('id', 'title', 'alias', 'introtext', 'fulltext')
-	.then(rows => {
-		rows.forEach(row => {
-			const body_content = `${row.introtext} ${row.fulltext}`
-			const fixed_urls = body_content.replace(/(href|src)="(?!http|https|mailto)/gm, '$1="http://localhost/')
+function joomla_articles(joomla_articles_table, live_domain = 'http://localhost/', output_dir = './_output/articles/') {
+	knex_query
+		.from(joomla_articles_table)
+		.select('id', 'title', 'alias', 'introtext', 'fulltext')
+		.then(rows => {
+			rows.forEach(row => {
+				const body_content = `${row.introtext} ${row.fulltext}`
+				const fixed_urls = body_content.replace(/(href|src)="(?!http|https|mailto)/gm, `$1="${live_domain}`)
 
-			const html_content = `
-				<!DOCTYPE html>
-				<html lang="en">
-				<head>
-					<meta charset="UTF-8">
-				</head>
-				<body>
-					<h1>${row.title}</h1>
-					${fixed_urls}
-				</body>
-				</html>
-			`
+				const html_content = `
+					<!DOCTYPE html>
+					<html lang="en">
+					<head>
+						<meta charset="UTF-8">
+					</head>
+					<body>
+						<h1>${row.title}</h1>
+						${fixed_urls}
+					</body>
+					</html>
+				`
 
-			// Arguments can be either a single String or in an Array
-			let args = `-f html -t docx -o ./_output/articles/${row.id}--${row.alias}.docx`
+				// Arguments can be either a single String or in an Array
+				let args = `-f html -t docx -o ${output_dir}${row.id}--${row.alias}.docx`
 
-			// Set your callback function
-			const callback = (err, result) => {
-				if (err) console.error('Oh Nos: ', err)
-				return console.log(result), result
-			}
+				// Set your callback function
+				const callback = (err, result) => {
+					if (err) console.error('Oh Nos: ', err)
+					return console.log(result), result
+				}
 
-			// Call pandoc
-			pandoc(html_content, args, callback)
+				// Call pandoc
+				pandoc(html_content, args, callback)
+			})
 		})
-	})
+}
+
+joomla_articles('xer2k_content')
