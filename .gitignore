@@ -63,5 +63,4 @@ object-cache.php
 .vscode
 .idea
 
-/_output/articles/**/*
-!/_output/articles/.gitit
+/_output/**/*
