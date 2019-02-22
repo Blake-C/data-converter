@@ -56,7 +56,7 @@ function joomla_articles(table, live_domain = 'http://localhost/', output_dir = 
 }
 // joomla_articles('xer2k_content')
 
-function wordpress_articles(table, live_domain = 'http://localhost/', output_dir = './_output/posts/') {
+function wordpress_posts(table, live_domain = 'http://localhost/', output_dir = './_output/posts/') {
 	knex_query
 		.from(table)
 		.where(function() {
@@ -99,4 +99,4 @@ function wordpress_articles(table, live_domain = 'http://localhost/', output_dir
 			})
 		})
 }
-// wordpress_articles('cmbu_posts')
+// wordpress_posts('cmbu_posts')
