@@ -35,7 +35,7 @@ knex_query
 			`
 
 			// Arguments can be either a single String or in an Array
-			let args = `-f html -t docx -o ./_output/articles/${row.alias}.docx`
+			let args = `-f html -t docx -o ./_output/articles/${row.id}--${row.alias}.docx`
 
 			// Set your callback function
 			const callback = (err, result) => {
