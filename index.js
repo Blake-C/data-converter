@@ -21,6 +21,7 @@ function joomla_articles(table, live_domain = 'http://localhost/', output_dir = 
 			rows.forEach(row => {
 				const body_content = `${row.introtext} ${row.fulltext}`
 				const fixed_urls = body_content.replace(/(href|src)="(?!http|https|mailto)/gm, `$1="${live_domain}`)
+				const page_url = `${live_domain}index.php?option=com_content&view=article&id=${row.id}`
 
 				const html_content = `
 					<!DOCTYPE html>
@@ -29,6 +30,8 @@ function joomla_articles(table, live_domain = 'http://localhost/', output_dir = 
 						<meta charset="UTF-8">
 					</head>
 					<body>
+						<p>Site URL: <a href="${page_url}">${page_url}</a></p>
+						<hr/>
 						<h1>${row.title}</h1>
 						${fixed_urls}
 					</body>
