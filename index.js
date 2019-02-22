@@ -38,7 +38,7 @@ function joomla_articles(joomla_articles_table, live_domain = 'http://localhost/
 				fs.mkdirs(output_dir)
 
 				// Arguments can be either a single String or in an Array
-				let args = `-f html -t docx -o ${output_dir}${row.id}--${row.alias}.docx`
+				const args = `-f html -t docx -o ${output_dir}${row.id}--${row.alias}.docx`
 
 				// Set your callback function
 				const callback = (err, result) => {
