@@ -1,5 +1,6 @@
 import knex from 'knex'
 import pandoc from 'node-pandoc'
+import fs from 'node-fs-extra'
 
 const knex_query = knex({
 	client: 'mysql',
@@ -33,6 +34,8 @@ function joomla_articles(joomla_articles_table, live_domain = 'http://localhost/
 					</body>
 					</html>
 				`
+
+				fs.mkdirs(output_dir)
 
 				// Arguments can be either a single String or in an Array
 				let args = `-f html -t docx -o ${output_dir}${row.id}--${row.alias}.docx`
